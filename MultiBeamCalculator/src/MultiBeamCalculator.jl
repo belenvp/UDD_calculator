@@ -26,5 +26,7 @@ import KernelAbstractions: @kernel, @index
 import ProgressMeter: Progress, next!
 include("simulation.jl")
 
+import StatsBase: fit, uweights, Histogram, Weights
+include("scans.jl")
 
 end # module MultiBeamCalculator
