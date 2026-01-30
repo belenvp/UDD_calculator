@@ -13,6 +13,7 @@ function squeeze(array)
 end
 
 
+#include("elements.jl")
 include("elements.jl")
 
 import FFTW
