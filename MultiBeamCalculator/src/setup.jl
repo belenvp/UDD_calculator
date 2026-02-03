@@ -72,6 +72,48 @@ function structure_factor(hkl, energy_center; element = :Si,
         FH = (f_0 + f_1 + 1im * f_2) * abs(coef)
         F_H = (f_0 + f_1 + 1im * f_2) * abs(coef)
 
+    elseif element == :Au
+
+        Z = 79
+        
+        a_Par = 4.065 
+        b_Par = 4.065 
+        c_Par = 4.065
+        
+        α_par = 90
+        β_par = 90
+        γ_par = 90
+        
+        
+        #cell_structure = 'fcc'; %crystalline structure
+        
+        h, k, l = hkl
+        
+        d = 1/sqrt(h^2/a_Par^2+k^2/b_Par^2+l^2/c_Par^2) #d-spacing
+        
+        q = 4 * pi/ (2*d) # q vector
+        
+        a_atom_fact = [16.8819,18.5913,25.5582,5.86]
+        b_atom_fact = [0.4511,8.6216,1.4826,36.3956]
+        c = 12.0658
+        
+        f_0 = 0
+        for (i_atom_fact) in LinRange(1, 4, 4)
+            ii_atom =  Int(i_atom_fact)
+            f_0 = f_0 + a_atom_fact[ii_atom]*exp(-b_atom_fact[ii_atom]*(q/(4*pi))^2)
+        end
+        f_0 = f_0 + c
+
+       
+        #Imaginary and real part of the structure factor from table https://henke.lbl.gov/optical_constants/asf.html
+        f_1, f_2 = read_element(energy_center, Auf1f2)
+        
+    
+       coef = (1 + (-1)^(h+k) + (-1)^(h+l) + (-1)^(k+l))
+        F0 = (Z + f_1 + 1im * f_2) * 4
+        FH = (f_0 + f_1 + 1im * f_2) * abs(coef)
+        F_H = (f_0 + f_1 + 1im * f_2) * abs(coef) 
+
     elseif element == :Si
         Z = 14
 
